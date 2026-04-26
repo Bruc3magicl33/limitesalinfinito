@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Límites al Infinito - CETis 70</title>
+
+  <script type="module">
+    import 'https://esm.run/mathlive';
+  </script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f6f8fb;
+      color:#1f2937;
+.limit-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.limit-prefix{
+  font-size:28px;
+  min-width:130px;
+}
+    }
+
+    .wrap{
+      max-width:1000px;
+      margin:0 auto;
+      padding:18px;
+    }
+
+    h1{ margin-bottom:4px; }
+
+    .author{
+      color:#6b7280;
+      font-weight:600;
+      margin-bottom:16px;
+    }
+
+    .card{
+      background:white;
+      border:1px solid #d9e0ea;
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+    }
+
+    .top-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .problem{
+      font-size:30px;
+      text-align:center;
+      padding:20px;
+      border:1px dashed #d9e0ea;
+      border-radius:12px;
+      margin:16px 0;
+      min-height:80px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .step{
+      border:1px solid #d9e0ea;
+      border-radius:14px;
+      padding:14px;
+      margin-bottom:14px;
+      background:#fff;
+    }
+
+    .step-header{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .step-title{
+      font-weight:700;
+      font-size:18px;
+    }
+
+    .attempts{
+      font-size:13px;
+      color:#6b7280;
+    }
+
+    math-field{
+      width:100%;
+      min-height:56px;
+      font-size:22px;
+      border:1px solid #d9e0ea;
+      border-radius:10px;
+      padding:10px;
+    }
+
+    math-field[disabled]{
+      opacity:.6;
+      background:#f3f4f6;
+    }
+
+    button{
+      border:none;
+      border-radius:10px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-size:15px;
+      background:#2563eb;
+      color:white;
+      font-weight:700;
+    }
+
+    button:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+
+    .feedback{
+      font-size:15px;
+      font-weight:700;
+      min-height:22px;
+    }
+
+    .ok{ color:#15803d; }
+    .bad{ color:#b91c1c; }
+
+    .hint{
+      margin-top:6px;
+      color:#a16207;
+      font-size:14px;
+      min-height:18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Límites al Infinito - CETis 70</h1>
+    <div class="author">Creado por Ing. Antonio García Rodríguez</div>
+
+    <div class="card">
+      <div class="top-actions">
+        <div class="pill">Funciones racionales · mismo grado · x → ∞</div>
+        <button id="restartBtn">Nuevo ejercicio 🔄</button>
+      </div>
+
+      <div class="problem" id="problemLatex"></div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-title">Paso 1. Identifica la potencia mayor</div>
+          <div class="attempts" id="attempts-1">Intentos: 0/3</div>
+        </div>
+        <math-field id="mf-1" virtual-keyboard-mode="off"></math-field>
+        <div class="actions">
+          <button id="btn-1">Revisar</button>
+          <div class="feedback" id="fb-1"></div>
+        </div>
+        <div class="hint" id="hint-1"></div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-title">Paso 2. Divide entre la potencia mayor</div>
+          <div class="attempts" id="attempts-2">Intentos: 0/3</div>
+        </div>
+        <div class="limit-row">
+  <span class="limit-prefix" id="limitPrefix2"></span>
+  <math-field id="mf-2" virtual-keyboard-mode="off" disabled></math-field>
+</div>
+        <div class="actions">
+          <button id="btn-2" disabled>Revisar</button>
+          <div class="feedback" id="fb-2"></div>
+        </div>
+        <div class="hint" id="hint-2"></div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-title">Paso 3. Sustituye 1/xⁿ por 0</div>
+          <div class="attempts" id="attempts-3">Intentos: 0/3</div>
+        </div>
+        <math-field id="mf-3" virtual-keyboard-mode="off" disabled></math-field>
+        <div class="actions">
+          <button id="btn-3" disabled>Revisar</button>
+          <div class="feedback" id="fb-3"></div>
+        </div>
+        <div class="hint" id="hint-3"></div>
+      </div>
+
+      <div class="step">
+        <div class="step-header">
+          <div class="step-title">Paso 4. Resultado final simplificado</div>
+          <div class="attempts" id="attempts-4">Intentos: 0/3</div>
+        </div>
+        <math-field id="mf-4" virtual-keyboard-mode="off" disabled></math-field>
+        <div class="actions">
+          <button id="btn-4" disabled>Revisar</button>
+          <div class="feedback" id="fb-4"></div>
+        </div>
+        <div class="hint" id="hint-4"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+let currentExercise = null;
+const attempts = {1:0,2:0,3:0,4:0};
+
+function randint(min,max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function choice(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function gcd(a,b){
+  a = Math.abs(a);
+  b = Math.abs(b);
+
+  while(b){
+    const t = b;
+    b = a % b;
+    a = t;
+  }
+
+  return a || 1;
+}
+
+function prettyCoef(coef, power){
+  if (coef === 0) return "";
+
+  let variable = "";
+
+  if (power === 1) variable = "x";
+  if (power > 1) variable = `x^${power}`;
+
+  if (coef === 1) return `+${variable}`;
+  if (coef === -1) return `-${variable}`;
+  if (coef > 0) return `+${coef}${variable}`;
+
+  return `${coef}${variable}`;
+}
+
+function prettyPoly(terms){
+  let s = "";
+
+  terms.forEach((coef, index) => {
+    const power = terms.length - 1 - index;
+
+    if (coef === 0) return;
+
+    if (power === 0){
+      if (coef > 0) s += `+${coef}`;
+      else s += `${coef}`;
+    } else {
+      s += prettyCoef(coef, power);
+    }
+  });
+
+  if (s.startsWith("+")) s = s.slice(1);
+
+  return s || "0";
+}
+
+function randomPolySameDegree(degree){
+  const terms = [];
+
+  for(let p = degree; p >= 0; p--){
+    let c = randint(-7,7);
+
+    while(p === degree && c === 0){
+      c = randint(-7,7);
+    }
+
+    terms.push(c);
+  }
+
+  return {
+    degree,
+    lead: terms[0],
+    terms,
+    latex: prettyPoly(terms)
+  };
+}
+
+function reduceFraction(num, den){
+  const g = gcd(num, den);
+
+  num = num / g;
+  den = den / g;
+
+  if (den < 0){
+    num *= -1;
+    den *= -1;
+  }
+
+  if (den === 1) return `${num}`;
+  return `\\frac{${num}}{${den}}`;
+}
+
+function termAfterDivide(coef, originalPower, maxPower){
+  const newPower = maxPower - originalPower;
+
+  if (coef === 0) return null;
+
+  if (newPower === 0){
+    return `${coef}`;
+  }
+
+  if (newPower === 1){
+    if (coef === 1) return `\\frac{1}{x}`;
+    if (coef === -1) return `-\\frac{1}{x}`;
+    return `\\frac{${coef}}{x}`;
+  }
+
+  if (coef === 1) return `\\frac{1}{x^${newPower}}`;
+  if (coef === -1) return `-\\frac{1}{x^${newPower}}`;
+
+  return `\\frac{${coef}}{x^${newPower}}`;
+}
+
+function termAfterZero(coef, originalPower, maxPower){
+  const newPower = maxPower - originalPower;
+
+  if (coef === 0) return null;
+
+  if (newPower === 0){
+    return `${coef}`;
+  }
+
+  return "0";
+}
+
+function joinTerms(arr){
+  const valid = arr.filter(Boolean);
+
+  let s = "";
+
+  valid.forEach((term, index) => {
+    if (index === 0){
+      s += term;
+      return;
+    }
+
+    if (term.startsWith("-")){
+      s += term;
+    } else {
+      s += `+${term}`;
+    }
+  });
+
+  return s || "0";
+}
+
+function buildDividedExpression(poly, maxDegree){
+  const terms = [];
+
+  poly.terms.forEach((coef, index) => {
+    const power = poly.degree - index;
+    terms.push(termAfterDivide(coef, power, maxDegree));
+  });
+
+  return joinTerms(terms);
+}
+
+function buildZeroExpression(poly, maxDegree){
+  const terms = [];
+
+  poly.terms.forEach((coef, index) => {
+    const power = poly.degree - index;
+    terms.push(termAfterZero(coef, power, maxDegree));
+  });
+
+  return joinTerms(terms);
+}
+
+function buildExercise(){
+  const caseType = choice(["same", "less", "greater"]);
+
+let numDegree;
+let denDegree;
+
+if (caseType === "same"){
+  numDegree = choice([2,3]);
+  denDegree = numDegree;
+}
+
+if (caseType === "less"){
+  denDegree = choice([2,3]);
+  numDegree = randint(0, denDegree - 1);
+}
+
+if (caseType === "greater"){
+  numDegree = choice([2,3]);
+  denDegree = randint(0, numDegree - 1);
+}
+  const numerator = randomPolySameDegree(numDegree);
+const denominator = randomPolySameDegree(denDegree);
+
+const maxDegree = Math.max(numDegree, denDegree);
+
+  const dividedNumerator = buildDividedExpression(numerator, maxDegree);
+  const dividedDenominator = buildDividedExpression(denominator, maxDegree);
+
+  const zeroNumerator = buildZeroExpression(numerator, maxDegree);
+  const zeroDenominator = buildZeroExpression(denominator, maxDegree);
+
+  let result = "";
+
+if (numDegree < denDegree){
+  result = "0";
+}
+else if (numDegree === denDegree){
+  result = reduceFraction(numerator.lead, denominator.lead);
+}
+else {
+  const sign = numerator.lead / denominator.lead;
+
+  if (sign > 0){
+    result = "\\infty";
+  } else {
+    result = "-\\infty";
+  }
+}
+
+  return {
+    numerator,
+    denominator,
+    caseType,
+numDegree,
+denDegree,
+maxDegree,
+    problem: `\\lim_{x\\to\\infty}\\frac{${numerator.latex}}{${denominator.latex}}`,
+    steps:{
+      1: `x^${maxDegree}`,
+      2: `\\frac{${dividedNumerator}}{${dividedDenominator}}`,
+      3: `\\frac{${zeroNumerator}}{${zeroDenominator}}`,
+      4: result
+    },
+    hints:{
+      1: `La potencia mayor es x^${maxDegree}.`,
+      2: `Divide cada término del numerador y denominador entre x^${maxDegree}.`,
+      3: `Sustituye explícitamente cada 1/xⁿ por 0.`,
+      4: `Simplifica la fracción final.`
+    }
+  };
+}
+
+function normalizeLatex(str){
+  let s = String(str);
+
+  s = s
+    .replace(/\s+/g,"")
+    .replace(/\\left/g,"")
+    .replace(/\\right/g,"")
+    .replace(/\\cdot/g,"")
+    .replace(/\\times/g,"")
+    .replace(/\\,/g,"")
+    .replace(/\\:/g,"")
+    .replace(/\\;/g,"")
+    .replace(/\\infty/g,"infty")
+    .replace(/∞/g,"infty")
+    .replace(/−/g,"-")
+    .replace(/\\dfrac/g,"\\frac");
+
+  // Convierte x^{2} en x^2
+  s = s.replace(/x\^\{(\d+)\}/g, "x^$1");
+
+  // Convierte -\frac{3}{x} en -3/x
+  s = s.replace(/-\\frac\{(\d+)\}\{x\}/g, "-$1/x");
+
+  // Convierte \frac{-3}{x} en -3/x
+  s = s.replace(/\\frac\{-(\d+)\}\{x\}/g, "-$1/x");
+
+  // Convierte \frac{3}{x} en 3/x
+  s = s.replace(/\\frac\{(\d+)\}\{x\}/g, "$1/x");
+
+  // Convierte -\frac{3}{x^2} en -3/x^2
+  s = s.replace(/-\\frac\{(\d+)\}\{x\^(\d+)\}/g, "-$1/x^$2");
+
+  // Convierte \frac{-3}{x^2} en -3/x^2
+  s = s.replace(/\\frac\{-(\d+)\}\{x\^(\d+)\}/g, "-$1/x^$2");
+
+  // Convierte \frac{3}{x^2} en 3/x^2
+  s = s.replace(/\\frac\{(\d+)\}\{x\^(\d+)\}/g, "$1/x^$2");
+
+  return s
+    .replace(/\\frac/g,"frac")
+    .replace(/\{/g,"")
+    .replace(/\}/g,"")
+    .replace(/\(/g,"")
+    .replace(/\)/g,"")
+    .replace(/\\/g,"")
+    .toLowerCase()
+    .trim();
+}
+
+function sameExpr(input, expected){
+  return normalizeLatex(input) === normalizeLatex(expected);
+}
+
+function step1IsCorrect(userInput){
+  const power = currentExercise.maxDegree;
+
+  const options = [
+    `x^${power}`,
+    `x^{${power}}`
+  ];
+
+  return options.some(op => sameExpr(userInput, op));
+}
+
+function normalizeStep2Infinity(str){
+  let s = String(str)
+    .replace(/\s+/g, "")
+    .replace(/\\left/g, "")
+    .replace(/\\right/g, "")
+    .replace(/\\dfrac/g, "\\frac")
+    .replace(/−/g, "-")
+    .replace(/x\^\{(\d+)\}/g, "x^$1");
+
+  // Convierte fracciones internas tipo \frac{4}{x} en 4/x
+  s = s.replace(/-\\frac\{(\d+)\}\{x\}/g, "-$1/x");
+  s = s.replace(/\\frac\{-(\d+)\}\{x\}/g, "-$1/x");
+  s = s.replace(/\\frac\{(\d+)\}\{x\}/g, "$1/x");
+
+  // Convierte fracciones internas tipo \frac{7}{x^2} en 7/x^2
+  s = s.replace(/-\\frac\{(\d+)\}\{x\^(\d+)\}/g, "-$1/x^$2");
+  s = s.replace(/\\frac\{-(\d+)\}\{x\^(\d+)\}/g, "-$1/x^$2");
+  s = s.replace(/\\frac\{(\d+)\}\{x\^(\d+)\}/g, "$1/x^$2");
+
+  // Limpieza final
+  return s
+    .replace(/\\frac/g, "frac")
+    .replace(/\{/g, "")
+    .replace(/\}/g, "")
+    .replace(/\(/g, "")
+    .replace(/\)/g, "")
+    .replace(/\\/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function latexToJsExpr(str){
+  let s = String(str)
+    .replace(/\s+/g, "")
+    .replace(/\\left/g, "")
+    .replace(/\\right/g, "")
+    .replace(/\\dfrac/g, "\\frac")
+    .replace(/−/g, "-")
+    .replace(/x\^\{(\d+)\}/g, "x^$1");
+
+  // Fracción grande
+  while(s.includes("\\frac")){
+    s = s.replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, "(($1)/($2))");
+  }
+
+  s = s
+    .replace(/\{/g, "(")
+    .replace(/\}/g, ")")
+    .replace(/\^/g, "**");
+
+  // 2x → 2*x
+  s = s.replace(/(\d)x/g, "$1*x");
+
+  return s;
+}
+
+function evalExpr(expr, xValue){
+  const js = latexToJsExpr(expr);
+
+  try{
+    const fn = new Function("x", `return ${js};`);
+    return fn(xValue);
+  } catch(e){
+    console.log("Error evaluando:", js, e);
+    return NaN;
+  }
+}
+
+function equivalentExpressions(input, expected){
+  const testValues = [2, 3, 5, 7];
+
+  for(const x of testValues){
+    const a = evalExpr(input, x);
+    const b = evalExpr(expected, x);
+
+    if (!Number.isFinite(a) || !Number.isFinite(b)){
+      return false;
+    }
+
+    if (Math.abs(a - b) > 0.00001){
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function step2IsCorrect(userInput){
+  const expected = currentExercise.steps[2];
+  return equivalentExpressions(userInput, expected);
+}
+
+function normalizeZeroStep(str){
+  return normalizeLatex(str)
+    .replace(/-0/g, "0")
+    .replace(/\+0/g, "0");
+}
+
+function step3IsCorrect(userInput){
+  const clean = normalizeZeroStep(userInput);
+  const expected = normalizeZeroStep(currentExercise.steps[3]);
+
+  // Debe aparecer al menos un 0
+  if (!clean.includes("0")){
+    return false;
+  }
+
+  // No aceptar resultado final directo
+  if (/^-?\d+$/.test(clean)){
+    return false;
+  }
+
+  // No aceptar infinito en paso 3
+  if (clean.includes("infty")){
+    return false;
+  }
+
+  // Comparación directa para evitar error con denominador 0
+  if (clean === expected){
+    return true;
+  }
+
+  // Solo usar equivalencia matemática cuando NO haya división entre 0
+  if (!expected.includes("/0") && !expected.includes("frac")){
+    return equivalentExpressions(userInput, currentExercise.steps[3]);
+  }
+
+  return false;
+}
+
+function normalizeInfinity(str){
+  return String(str)
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/∞/g, "infty")
+    .replace(/\\infty/g, "infty");
+}
+
+function parseFinalNumber(str){
+  let s = String(str)
+    .replace(/\s+/g, "")
+    .replace(/\\dfrac/g, "\\frac")
+    .replace(/−/g, "-")
+    .replace(/\\left/g, "")
+    .replace(/\\right/g, "");
+
+  // -\frac{2}{3}
+  let match = s.match(/^-\\frac\{(\d+)\}\{(\d+)\}$/);
+  if (match){
+    return { num:-Number(match[1]), den:Number(match[2]) };
+  }
+
+  // \frac{4}{5} o \frac{-4}{-5}
+  match = s.match(/^\\frac\{(-?\d+)\}\{(-?\d+)\}$/);
+  if (match){
+    return { num:Number(match[1]), den:Number(match[2]) };
+  }
+
+  // 4/5
+  match = s.match(/^(-?\d+)\/(-?\d+)$/);
+  if (match){
+    return { num:Number(match[1]), den:Number(match[2]) };
+  }
+
+  // frac45 después de normalizar
+  const clean = normalizeLatex(str);
+  match = clean.match(/^frac(-?\d+)(-?\d+)$/);
+  if (match){
+    return { num:Number(match[1]), den:Number(match[2]) };
+  }
+
+  // entero
+  match = clean.match(/^-?\d+$/);
+  if (match){
+    return { num:Number(clean), den:1 };
+  }
+
+  return null;
+}
+
+function sameFinalNumber(input, expected){
+  const a = parseFinalNumber(input);
+  const b = parseFinalNumber(expected);
+
+  console.log("FINAL usuario:", input, a);
+  console.log("FINAL esperado:", expected, b);
+
+  if (!a || !b) return false;
+  if (a.den === 0 || b.den === 0) return false;
+
+  return a.num * b.den === b.num * a.den;
+}
+
+function step4IsCorrect(userInput){
+  const expectedInf = normalizeInfinity(currentExercise.steps[4]);
+  const cleanInf = normalizeInfinity(userInput);
+
+  if (expectedInf.includes("infty")){
+    if (cleanInf === expectedInf){
+      return { ok:true };
+    }
+
+    if (
+      (cleanInf === "-infty" && expectedInf === "infty") ||
+      (cleanInf === "infty" && expectedInf === "-infty")
+    ){
+      return {
+        ok:false,
+        message:"Error: revisa el signo del infinito."
+      };
+    }
+
+    return { ok:false };
+  }
+
+  if (sameFinalNumber(userInput, currentExercise.steps[4])){
+    return { ok:true };
+  }
+
+  return { ok:false };
+}
+
+function validateWithReason(step, userInput){
+  if (!userInput || !userInput.trim()){
+    return {ok:false, message:"Escribe tu paso primero."};
+  }
+
+  if (step === 1){
+    if (step1IsCorrect(userInput)){
+      return {ok:true, message:"Correcto"};
+    }
+
+    return {ok:false, message:"Debes escribir la potencia mayor, por ejemplo x²."};
+  }
+
+  if (step === 2){
+    if (step2IsCorrect(userInput)){
+      return {ok:true, message:"Correcto"};
+    }
+
+    return {ok:false, message:"Divide cada término entre la potencia mayor."};
+  }
+
+  if (step === 3){
+    if (step3IsCorrect(userInput)){
+      return {ok:true, message:"Correcto"};
+    }
+
+    return {
+      ok:false,
+      message:"Debes sustituir explícitamente 1/xⁿ por 0 antes de simplificar."
+    };
+  }
+
+  if (step === 4){
+  const result = step4IsCorrect(userInput);
+
+  if (result.ok){
+    return {ok:true, message:"Correcto"};
+  }
+
+  if (result.message){
+    return {ok:false, message:result.message};
+  }
+
+  return {ok:false, message:"Revisa el resultado final simplificado."};
+}
+
+  return {ok:false, message:"Error inesperado."};
+}
+
+function setProblem(){
+  currentExercise = buildExercise();
+
+  document.getElementById("problemLatex").innerHTML =
+    `\\(${currentExercise.problem}\\)`;
+
+  document.getElementById("limitPrefix2").innerHTML =
+    `\\(\\lim_{x\\to\\infty}\\)`;
+
+  if (window.MathJax){
+    MathJax.typesetPromise();
+  }
+
+  console.log("Ejercicio actual:", currentExercise);
+}
+
+function resetUI(){
+  for(let i = 1; i <= 4; i++){
+    attempts[i] = 0;
+
+    const mf = document.getElementById(`mf-${i}`);
+    const btn = document.getElementById(`btn-${i}`);
+
+    mf.value = "";
+    mf.disabled = i !== 1;
+    btn.disabled = i !== 1;
+
+    document.getElementById(`fb-${i}`).textContent = "";
+    document.getElementById(`fb-${i}`).className = "feedback";
+    document.getElementById(`hint-${i}`).textContent = "";
+    document.getElementById(`attempts-${i}`).textContent = "Intentos: 0/3";
+  }
+}
+
+function enableStep(n){
+  document.getElementById(`mf-${n}`).disabled = false;
+  document.getElementById(`btn-${n}`).disabled = false;
+  document.getElementById(`mf-${n}`).focus();
+}
+
+function setFeedback(step,text,cls){
+  const fb = document.getElementById(`fb-${step}`);
+  fb.textContent = text;
+  fb.className = `feedback ${cls}`;
+}
+
+function failExercise(step){
+  for(let i = 1; i <= 4; i++){
+    document.getElementById(`mf-${i}`).disabled = true;
+    document.getElementById(`btn-${i}`).disabled = true;
+  }
+
+  setFeedback(step, "❌ Ejercicio bloqueado. Presiona Nuevo ejercicio para intentar otro.", "bad");
+}
+
+function reviewStep(step){
+  const mf = document.getElementById(`mf-${step}`);
+  const userInput = mf.value;
+
+  if (attempts[step] >= 3){
+    failExercise(step);
+    return;
+  }
+
+  attempts[step]++;
+  document.getElementById(`attempts-${step}`).textContent = `Intentos: ${attempts[step]}/3`;
+
+  const result = validateWithReason(step,userInput);
+
+  if (result.ok){
+    setFeedback(step,"✅ Correcto","ok");
+    document.getElementById(`hint-${step}`).textContent = "";
+
+    mf.disabled = true;
+    document.getElementById(`btn-${step}`).disabled = true;
+
+    if (step < 4){
+      enableStep(step + 1);
+    }
+
+    return;
+  }
+
+  setFeedback(step, `❌ ${result.message}`, "bad");
+
+  if (attempts[step] >= 2){
+    document.getElementById(`hint-${step}`).textContent =
+      `💡 Sugerencia: ${currentExercise.hints[step]}`;
+  }
+
+  if (attempts[step] >= 3){
+    failExercise(step);
+  }
+}
+
+function init(){
+  setProblem();
+  resetUI();
+
+  for(let i = 1; i <= 4; i++){
+    document.getElementById(`btn-${i}`).addEventListener("click", () => reviewStep(i));
+  }
+
+  document.getElementById("restartBtn").addEventListener("click", () => {
+    setProblem();
+    resetUI();
+  });
+}
+
+window.addEventListener("load", init);
+</script>
+</body>
+</html>
